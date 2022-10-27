@@ -8,10 +8,10 @@ public class ExtendedHttpClient<T>
 {
     public HttpClient HttpClient { get; private set; }
 
-    public ExtendedHttpClient(IHttpClientFactory httpClientFactory, ExtendedHttpClientOptions<T> options)
+    public ExtendedHttpClient(IHttpClientFactory httpClientFactory, HttpClientOptions<T> options)
     {
         HttpClient = httpClientFactory.CreateClient();
-        options.Options(HttpClient);
+        options.Configure(HttpClient);
     }
 
     public virtual async Task<TResponse> GetAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri, CancellationToken cancellationToken = new())
