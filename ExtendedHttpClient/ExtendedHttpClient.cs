@@ -11,7 +11,7 @@ public class ExtendedHttpClient<T>
     public ExtendedHttpClient(IHttpClientFactory httpClientFactory, ExtendedHttpClientOptions<T> options)
     {
         HttpClient = httpClientFactory.CreateClient();
-        HttpClient.BaseAddress = new Uri(options.Url);
+        options.Options(HttpClient);
     }
 
     public virtual async Task<TResponse> GetAndReturnResponseAsync<TRequest, TResponse>(TRequest request, string uri, CancellationToken cancellationToken = new())
