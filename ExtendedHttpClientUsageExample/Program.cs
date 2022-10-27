@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-
+services.AddExtendedHttpClient(typeof(UserExtendedHttpClient<>));
 services.AddServiceWithExtendedHttpClient<IServiceWithInterface, ServiceWithInterface>(configuration["ApiSettings:ServiceWithInterfaceUrl"]);
 services.AddServiceWithExtendedHttpClient<SimpleService>(options =>
 {

@@ -17,6 +17,7 @@ public class CommonMiddleware
         await _next.Invoke(context);
 
         await context.Response.WriteAsync($"Service URI with interface: {serviceWithInterface.ExtendedHttpClient.HttpClient.BaseAddress}\n" +
+                                          $"Service ExtendedHttpClient type: {serviceWithInterface.ExtendedHttpClient.GetType()}\n\n" +
                                           $"Service URI without interface: {simpleService.ExtendedHttpClient.HttpClient.BaseAddress}\n");
     }
 }
