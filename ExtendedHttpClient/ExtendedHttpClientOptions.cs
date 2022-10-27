@@ -1,11 +1,20 @@
 ﻿namespace ExtendedHttpClient;
 
-public class ExtendedHttpClientOptions<T>
+public class ExtendedHttpClientOptions
 {
-    public string Url { get; private set; }
+    public Type ExtendedHttpClientType { get; init; }
 
-    public ExtendedHttpClientOptions(string url)
+    public ExtendedHttpClientOptions()
     {
-        Url = url;
+        ExtendedHttpClientType = typeof(ExtendedHttpClient<>);
+    }
+
+    public ExtendedHttpClientOptions(Type extendedHttpClientType) : this()
+    {
+        if (extendedHttpClientType.BaseType!.ToString() != typeof(ExtendedHttpClient<>).ToString())
+            throw new InvalidCastException($"{extendedHttpClientType} is not inherited ExtendedHttpClient<T>");
+        ExtendedHttpClientType = extendedHttpClientType;
     }
 }
+
+

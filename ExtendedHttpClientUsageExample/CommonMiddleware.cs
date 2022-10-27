@@ -6,21 +6,18 @@ namespace ExtendedHttpClientUsageExample;
 public class CommonMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IServiceWithInterface _serviceWithInterface;
-    private readonly SimpleService _simpleService;
 
-    public CommonMiddleware(RequestDelegate next, IServiceWithInterface service, SimpleService requestService)
+    public CommonMiddleware(RequestDelegate next)
     {
         _next = next;
-        _serviceWithInterface = service;
-        _simpleService = requestService;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, IServiceWithInterface serviceWithInterface, SimpleService simpleService)
     {
         await _next.Invoke(context);
 
-        await context.Response.WriteAsync($"Service URI with interface: {_serviceWithInterface.ExtendedHttpClient.HttpClient.BaseAddress}\n" +
-                                          $"Service URI without interface: {_simpleService.ExtendedHttpClient.HttpClient.BaseAddress}\n");
+        await context.Response.WriteAsync($"Service URI with interface: {serviceWithInterface.ExtendedHttpClient.HttpClient.BaseAddress}\n" +
+                                          $"Service ExtendedHttpClient type: {serviceWithInterface.ExtendedHttpClient.GetType()}\n\n" +
+                                          $"Service URI without interface: {simpleService.ExtendedHttpClient.HttpClient.BaseAddress}\n");
     }
 }
